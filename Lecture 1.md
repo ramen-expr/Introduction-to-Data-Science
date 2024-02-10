@@ -30,11 +30,13 @@ One of these that we use is R. It is an object-oriented language, geared towards
 - Hands-on skill with R language is required for being a data scientist
 _________
 ### Actions
-- [ ]  [Check the curated list of the R videos ](https://unicanberra.instructure.com/courses/15626/pages/basics-of-r-language)
-- [ ] [Ensure that you get yourself familiar with the steps to install R and R-Studio:](https://www.youtube.com/watch?v=5YmcEYTSN7k&ab_channel=RTutorials)
+- [x]  [Check the curated list of the R videos ](https://unicanberra.instructure.com/courses/15626/pages/basics-of-r-language)
+	- Found a playlist for R tutorials that are less R-Studio focused within that list of videos. [Click here to view.](https://www.youtube.com/watch?v=Al-pTT-YMEA&list=PLWPirh4EWFpEvN4ktS8LE0cvLCSfhD55t&index=3) 
+- [x] [Ensure that you get yourself familiar with the steps to install R and R-Studio:](https://www.youtube.com/watch?v=5YmcEYTSN7k&ab_channel=RTutorials)
+	- I have decided that on the office computer I will use command line and nvim to code in R, on the laptop I might use a mix on R-Studio or console 
 - [ ] There was some cool interactive learning module. Go back through lecture recording and check out the interactive modules
-- [ ] Check unit outline just to get a brief idea of what's required
-- [ ] Mark up the different assignments and weights on pieces of paper at home, so they can be crossed off as you go and see the due dates.
-- [ ] Set up git repo for this unit
-- [ ] Check out some of the textbooks.
+- [x] Check unit outline just to get a brief idea of what's required
+- [x] Mark up the different assignments and weights on pieces of paper at home, so they can be crossed off as you go and see the due dates.
+- [x] Set up git repo for this unit
+- [x] Check out some of the textbooks.
 
