@@ -2,7 +2,8 @@
 If you want to save a plot you produced, run the following:
 ```R
 # Example data 
-x <- 1:10 y <- x^2  
+x <- 1:10
+y <- x^2  
 
 # Save the plot to a PDF file 
 pdf("plot_output.pdf") 
