@@ -1,0 +1,156 @@
+---
+title: "tut2"
+author: "Tom Lyle"
+date: "2024-02-21"
+output: html_document
+---
+
+## Exercise 1
+```{r, eval=TRUE, include=TRUE}
+# Assign the value 42 to x
+x <- 42
+
+# Print out the value of the variable x
+print(x)
+
+# Change the variable's value to -63 and print it
+x <- -63
+
+# Create another variable called y and assign 32 as its value
+y <- 32
+
+# Add the absolute values of the two number and assign the result to variable z
+z <- abs(x) + abs(y)
+
+# print x, y, and z
+print(x)
+print(y)
+print(z)
+
+# Declare variables of different types
+my_numeric <- 42
+my_character <- "70"
+my_logical <- FALSE 
+
+# Check class of my_numeric
+print(class(my_numeric))
+
+# Check class of my_character
+print(class(my_character))
+
+# Check class of my_logical
+print(class(my_logical))
+
+# Can you fix this to avoid the error
+res <- my_numeric + strtoi(my_character)
+print(res)
+```
+
+
+## Vectors
+```{r, echo=TRUE}
+x <- c(0.5, 0.6)       ## numeric
+print(x)
+x <- c(TRUE, FALSE)    ## logical
+print(x)
+x <- c(T, F)           ## logical
+print(x)
+x <- c("a", "b", "c")  ## character
+print(x)
+x <- 9:29              ## integer
+print(x)
+x <- c(1+0i, 2+4i)     ## complex
+print(x)
+```
+
+
+## Exercise 2
+```{r, include=TRUE, eval=TRUE}
+# first twelve letters:
+f12 <- LETTERS[1:12]
+print(f12)
+
+# odd letters:
+oddletters <- LETTERS[seq(1, length(LETTERS), 2)]
+print(oddletters)
+
+# vowels:
+indexvowles <- grep("A|E|I|O|U", LETTERS)
+vowels <- LETTERS[indexvowles]
+print(vowels)
+
+# Consonants:
+consonants <- LETTERS[! LETTERS %in% vowels]
+print(consonants)
+```
+
+## Exercise 3
+```{r, include=TRUE, eval=TRUE}
+names <- c("Jack", "Dione", "Reda", "Sally", "Adam")
+before <- c(78, 72, 78, 79, 105)
+after <- c(67, 65, 79, 70, 93)
+
+weight.change <- after - before
+print(weight.change)
+
+# Average weight loss
+print(mean(weight.change))
+
+# Find most weight lost
+min_index <- which.min(weight.change)
+most_lost_person = names[min_index]
+print(most_lost_person)
+
+# any that gained?
+print(any(weight.change > 0))
+# who?
+big_eaters <- which(weight.change > 0)
+print(names[big_eaters])
+```
+
+## Exercise 4
+```{r, eval=TRUE, include=TRUE}
+# Simple Calculator
+print("Select operation.")
+print("1.Add")
+print("2.Subtract")
+print("3.Multiply")
+print("4.Divide")
+# Your choice
+choice = 1 
+
+num1 = 10
+num2 = 4
+
+# Which operation?
+if(choice == 1){
+  print(paste(num1,"+",num2,"=", num1+num2))
+}else if(choice == 2){
+  print(paste(num1,"-",num2,"=", num1-num2))
+}else if(choice == 3){
+  print(paste(num1,"x",num2,"=", num1*num2))
+}else if(choice == 4){
+  print(paste(num1,"/",num2,"=", num1/num2))
+}else{
+  print("Wrong choice!")
+}
+```
+
+## Exercise 5
+```{r, include=TRUE, eval=TRUE}
+emails <- c('myname@mycompany.com',
+            'my@mycompany.com',
+            'name@mycompany.net',
+            'work@mycompany.org',
+            'mywork#mycompany.net',
+            'myproduct#mycompany.com',
+            'myCoffee2mycompany.org',
+            'mycar@mycompany.com',
+            'mypet@mycompany.com',
+            'hobbies!mycompany.com')
+print(emails)
+
+# Which have '@'?
+valid_email <- grepl('@', emails)
+print(emails[valid_email])
+```
