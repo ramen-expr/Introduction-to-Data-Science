@@ -1,0 +1,118 @@
+---
+title: "tut3"
+author: "Tom Lyle"
+date: "2024-02-28"
+output: html_document
+---
+## Question 1
+```{r, eval=TRUE, include=TRUE}
+vecX <- c(9, -1, 4, 2)           
+cat("Original Vector: ")   
+print(vecX)
+
+# Append 3 at the start of the vector
+vecX <- c(3, vecX)
+cat("Appending 3 at the start of the vector: ")
+print(vecX)
+
+# Append 6 at the end of the vector
+vecX <- c(vecX, 6)
+cat("Appending 6 at the end of the vector: ")
+print(vecX)
+
+# Append another vector at the end of the vector
+tempVector <- c(-7, 12)
+vecOut <- c(vecX, tempVector)
+cat("Appending another vector at the end of the vector: ")
+print(vecOut)
+```
+
+## Question 2
+```{r, eval=TRUE, include=TRUE}
+ids <- c(1001, 1002, 1003, 1004, 1005)
+names <- c("Alice", "Bob", "Charlie", "David", "Eve")
+
+print("Check for types of data in each vector:")
+print(paste("ids:", class(ids)))
+print(paste("names:", class(names)))
+
+print("Check for student IDs: 1003, 1005, 1007")
+
+check_id_exists <- function(idVec){
+  for (x in idVec){
+    if(any(ids == x)){
+      cat(paste("ID:", x, "\n"))
+      cat(paste("Name:", names[ids == x], "\n\n"))
+    }
+    else {
+      cat(paste("Error: ID", x, "does not exist\n\n"))
+    }
+  }
+}
+
+check_ids <- c(1003, 1005, 1007)
+check_id_exists(check_ids)
+
+input <- sample(x = 1000:1020, size=5)
+for (i in input){
+  check_id_exists(i)
+}
+
+```
+
+## Question 3
+
+```{r, eval=TRUE, include=TRUE}
+numbers <- c(1, 3, 5, 7, 9)
+
+sum = 0
+for (x in 1:length(numbers)){
+  if (numbers[x] %% 2 == 1) {
+    sum <- sum + numbers[x]
+  }
+}
+
+cat("Sum of all odd numbers is", sum, "\n")
+```
+
+## Question 4
+```{r, eval=TRUE, include=TRUE}
+firstnames <- c("John", "Jane", "David")
+lastnames <- c("Doe", "Smith", "Jones")
+
+fullnames <- c()
+for (i in 1:length(firstnames)){
+  fullnames <- c(fullnames, paste(firstnames[i], lastnames[i]))
+}
+
+fullnames
+```
+
+## Question 5
+
+```{r, eval=TRUE, include=TRUE}
+gen_row <- function(n){
+  row <- ""
+  num_chars <- n + (n-1)
+  for (i in 1:num_chars){
+    row <- paste(row, "*")
+  }
+  return(row)
+}
+
+gen_pyramid <- function(rows){
+  for (i in 1:rows){
+    spacing <- ""
+    num_spaces <- 2 * rows - 2 * (i -1)
+    
+    for (x in 1:num_spaces){
+      spacing <- paste(spacing, " ", sep = "")
+    }
+    
+    cat(paste(spacing, gen_row(i), "\n", sep = ""))
+  }
+  
+}
+
+gen_pyramid(5)
+```
