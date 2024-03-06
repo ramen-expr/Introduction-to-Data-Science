@@ -34,7 +34,7 @@ _________
 	- Found a playlist for R tutorials that are less R-Studio focused within that list of videos. [Click here to view.](https://www.youtube.com/watch?v=Al-pTT-YMEA&list=PLWPirh4EWFpEvN4ktS8LE0cvLCSfhD55t&index=3) 
 - [x] [Ensure that you get yourself familiar with the steps to install R and R-Studio:](https://www.youtube.com/watch?v=5YmcEYTSN7k&ab_channel=RTutorials)
 	- I have decided that on the office computer I will use command line and nvim to code in R, on the laptop I might use a mix on R-Studio or console 
-- [ ] There was some cool interactive learning module. Go back through lecture recording and check out the interactive modules
+- [x] There was some cool interactive learning module. Go back through lecture recording and check out the interactive modules
 - [x] Check unit outline just to get a brief idea of what's required
 - [x] Mark up the different assignments and weights on pieces of paper at home, so they can be crossed off as you go and see the due dates.
 - [x] Set up git repo for this unit

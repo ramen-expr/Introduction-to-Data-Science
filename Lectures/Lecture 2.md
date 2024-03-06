@@ -28,12 +28,13 @@ class(variable_name)
 - Factors
 
 ## Mathematical Operators
-| Operator         | Symbol |
-|------------------|--------|
-| Addition         | +      |
-| Subtraction      | -      |
-| Multiplication   | *      |
-| Division         | /      |
-| Exponent         | ^      |
-| Modulus          | %%     |
-| Integer Division | %/%    |
+| Operator              | Symbol |
+| --------------------- | ------ |
+| Addition              | +      |
+| Subtraction           | -      |
+| Multiplication        | *      |
+| Division              | /      |
+| Exponent              | ^      |
+| Modulus               | %%     |
+| Integer Division      | %/%    |
+| Matrix Multiplication | %\*%   |

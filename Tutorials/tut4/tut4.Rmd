@@ -1,0 +1,125 @@
+---
+title: "tut4"
+author: "Tom Lyle"
+output: html_document
+---
+
+## Question 1
+Given the following vectors;
+
+```{r, include=TRUE, eval=TRUE}
+vecX <- c(3, 9, -1, 4, 2, 6)
+vecY <- c(5, 2, 0, 9, 3, 4)
+```
+create a chunk of code to perform these operations:
+
+1. Create a matrix matX, from the vector (vecX), where number of rows are 2
+```{r, include=TRUE, eval=TRUE}
+matX <- matrix(vecX, nrow = 2)
+```
+2. Create a matrix matY, from the vector (vecY), where number of rows are 2,
+```{r, include=TRUE, eval=TRUE}
+matY <- matrix(vecY, nrow = 2)
+```
+3. Display the values of elements of the first row from matrix matX.
+```{r, include=TRUE, eval=TRUE}
+matX[1,]
+```
+4. Display the value of the element in the second row and third column of matY,
+```{r, include=TRUE, eval=TRUE}
+matY[2,3]
+```
+5. Sum up the two matrices and display the output,
+```{r, include=TRUE, eval=TRUE}
+matX + matY
+```
+6. Subtract the matY from matX and display the output,
+```{r, include=TRUE, eval=TRUE}
+matX - matY
+```
+7. Multiply the two matrices (element-wise) and print the output,
+```{r, include=TRUE, eval=TRUE}
+matX * matY
+```
+8. Transpose the matY and assign the output to a third matrix called matZ,
+```{r, include=TRUE, eval=TRUE}
+matZ <- t(matY)
+```
+9. Perform matrix multiplication between matX and matZ and assign the output to matW,
+```{r, include=TRUE, eval=TRUE}
+matW <- matX %*% matZ
+```
+10. Display the dimension of the matW matrix,
+```{r, include=TRUE, eval=TRUE}
+dim(matW)
+```
+11. Display the maximum, minimum and average value of matrix, matW
+```{r, include=TRUE, eval=TRUE}
+max(matW)
+min(matW)
+mean(matW)
+```
+12. Reflect and discuss with your colleagues what matrices are and when we should use them.
+
+2-dimensional structures, used well for numbers, photos, chess boards and other 2-dimensional representations.
+
+## Data frames
+```{r, eval=TRUE, include=TRUE}
+authors=c("Reda", "John", "Edward", "Ben")
+year=c(2104, 2016, 2005, 2019)
+publishers=c("Wiley", "Springer", "Sage", "International Books")
+
+books <- data.frame(authors=authors, year= year, publishers= publishers)
+
+# print the data frame entries
+print(books)
+
+# print the values of the authors entry
+books$authors
+# or ...
+books["authors"] # what will happen if you use double square brackets? books[["authors"]] 
+books[["authors"]] # Back to vector!
+```
+
+## Question 2
+
+1. Create your own data frame that represents a tiny database with one table holding information about 5 movies. The variables (i.e., columns) of this table include the movies’ title, director, year, and country.
+```{r, eval=TRUE, include=TRUE}
+movie.title = c("Interstellar", "How to Train Your Dragon", "Baby Driver", "Spiderman: Into the Spiderverse", "Spirited Away")
+movie.director = c("Christopher Nolan", "Chris Sanders", "Edgar Wright", "Bob Persichetti", "Hayao Miyazaki")
+movie.year = c(2014, 2010, 2017, 2018, 2001)
+movie.country = c("U.S.A", "Berk", "U.S.A", "Marvel's U.S.A", "Japan")
+
+filmsA <- data.frame(title=movie.title,
+                     director=movie.director,
+                     year=movie.year,
+                     country=movie.country)
+```
+
+2. Create another data frame of the same format as above but containing just one new movie.
+```{r, eval=TRUE, include=TRUE}
+
+filmsB <- data.frame(title=c("Whiplash"),
+                     director=c("Damien Chazelle"),
+                     year=c(2014),
+                     country=c("U.S.A"))
+
+```
+
+3. Merge the two data frames row-wise using rbind() function.
+```{r, include=TRUE, eval=TRUE}
+filmsComb <- rbind(filmsA, filmsB)
+```
+4. Extract the titles of the merged data frame using the access operator, $
+```{r, eval=TRUE, include=TRUE}
+filmsComb$title
+```
+5. Try sorting the year using sort() function
+```{r, eval=TRUE, include=TRUE}
+filmsComb[sort(filmsComb$year),]
+```
+6. Replace the sort with the order() function, what is the difference between using sort and order?
+```{r, eval=TRUE, include=TRUE}
+filmsComb[order(filmsComb$year),]
+```
+
