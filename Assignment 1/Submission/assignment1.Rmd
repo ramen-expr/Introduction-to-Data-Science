@@ -1,0 +1,322 @@
+---
+title: "Assignment"
+author: "Thomas Lyle (u3236563)"
+date: "2024-03-30"
+output: html_document
+---
+
+
+# Data Creation
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r, include=TRUE}
+# Set the seed for reproducibility
+set.seed(123)
+
+# Create a sequence of dates for the month of March 2023
+dates <- seq(from = as.Date("2023-03-01"), to = as.Date("2023-05-31"), by = 1)
+
+# Create a data frame to store the weather data
+weather <- data.frame(
+  Date = dates,
+  Temperature = round(runif(length(dates), 15, 25), 1),
+  Humidity = sample(50:100, length(dates), replace = TRUE),
+  Pressure = sample(995:1015, length(dates), replace = TRUE),
+  WindSpeed = sample(5:20, length(dates), replace = TRUE),
+  WindDirection = sample(c("N", "NE", "E", "SE", "S", "SW", "W", "NW"), length(dates), replace = TRUE),
+  DewPoint = round(runif(length(dates), 10, 15), 1),
+  CloudCover = sample(0:100, length(dates), replace = TRUE),
+  Precipitation = round(runif(length(dates), 0, 15), 1),
+  Visibility = sample(5:20, length(dates), replace = TRUE),
+  UVIndex = sample(1:5, length(dates), replace = TRUE),
+  Condition = sample(c("Sunny", "Partly Cloudy", "Rainy", "Snowy"), length(dates), replace = TRUE),
+  Location = rep(c("Sydney", "Canberra"), each = length(dates)/2)
+)
+```
+
+# Part A: Data Understanding
+This data set has weather data from Sydney and Canberra, describing different components of the weather. This data can be useful in creating models to predict weather in the months March through to the end of May. The data should only really be used to compare for this time frame, as some trends will not account for changes in season, and could assume a linear relationship where the temperature will continue to decline, rather than oscillate as the seasons change. This is because the data is only over a three month period, leaving a lot of missing context.
+
+Using the data, we can try to find a relationship between the different variables and then are able to make predictions about those attributes. By using some analysis, we can find the important factors that relate a lot of these variables together, making it easier to model with less information. If possible, we can make a model that uses very few data points to predict what the weather will be like on any given day in the future.
+
+Since the data is separated into Sydney and Canberra, it is best to separate the data from each other, so that a true reading can be given. Using the `summary()` function to find some high-level statistics about the data, we get the following output:
+```{r, eval=TRUE, include=TRUE}
+# Sydney data
+sydney.indices <- which(weather$Location == "Sydney")
+sydney.data <- weather[sydney.indices,]
+
+# Canberra data
+canberra.indices <- which(weather$Location == "Canberra")
+canberra.data <- weather[canberra.indices,]
+
+# Summary Sydney
+summary(sydney.data)
+
+#Summary Canberra
+summary(canberra.data)
+```
+
+To get an idea of the temperature readings, we can produce a histogram. 
+
+```{r, eval=TRUE, include=TRUE}
+# Histograms
+hist(sydney.data$Temperature)
+hist(canberra.data$Temperature)
+```
+
+This data shows that both cities were mostly similar in temperature, with Canberra having slightly colder weather overall. The temperature reached a minimum of 15 deg Celsius and a maximum of 24.9 deg Celsius, averaging a temperature of about 20 deg Celsius for both cities. The biggest thing to note between these two representations is that the dates stop at April 15th for Sydney and start at April 16th for Canberra. 
+
+# Part B: Vector and Matrix Manipulation
+
+To help visualise the data by months, it is useful to create a subset of data for the weather of each month.
+```{r, include=TRUE}
+weather.march <- weather[which(weather$Date < as.Date("2023-04-01")),]
+weather.april <- weather[which((weather$Date < as.Date("2023-05-01")) & (weather$Date >= as.Date("2023-04-01"))),]
+weather.may <- weather[which((weather$Date < as.Date("2023-06-01")) & (weather$Date >= as.Date("2023-05-01"))),]
+```
+
+Now, determining the average temperature for each month and storing it to a vector:
+```{r, include=TRUE, eval=TRUE}
+average_temps <- c(mean(weather.march$Temp), mean(weather.april$Temp), mean(weather.may$Temp))
+average_temps
+```
+
+Average humidity for each month, divided by location:
+```{r, eval=TRUE, include=TRUE}
+# Sydney
+sydney.data.march <- sydney.data[which(sydney.data$Date < as.Date("2023-04-01")),]
+sydney.data.april <- sydney.data[which(sydney.data$Date >= as.Date("2023-04-01")),]
+
+sydney.humidity.monthly <- c(mean(sydney.data.march$Humidity), mean(sydney.data.april$Humidity))
+sydney.humidity.monthly
+
+# Canberra
+canberra.data.april <- canberra.data[which(canberra.data$Date < as.Date("2023-05-01")),]
+canberra.data.may <- canberra.data[which(canberra.data$Date >= as.Date("2023-05-01")),]
+
+canberra.humidity.monthly <- c(mean(canberra.data.april$Humidity), mean(canberra.data.may$Humidity))
+canberra.humidity.monthly
+```
+
+Then, creating a matrix containing the average temperature, humidity, pressure, and wind speed readings for each month:
+```{r, eval=TRUE, include=TRUE}
+a.data.march <- c(mean(weather.march$Temperature), mean(weather.march$Humidity), mean(weather.march$Pressure), mean(weather.march$WindSpeed))
+
+a.data.april <- c(mean(weather.april$Temperature), mean(weather.april$Humidity), mean(weather.april$Pressure), mean(weather.april$WindSpeed))
+
+a.data.may <- c(mean(weather.may$Temperature), mean(weather.may$Humidity), mean(weather.may$Pressure), mean(weather.may$WindSpeed))
+
+a.data <- c(a.data.march, a.data.april, a.data.may)
+a <- matrix(a.data, 4, 3)
+a
+```
+
+Now creating another matrix containing the average temperature, humidity, pressure, and wind speed readings for each city:
+```{r, eval=TRUE, include=TRUE}
+# For Sydney data
+
+# Get the temp, humidity, pressure and wind speed
+b.sydney <- sydney.data[, c("Temperature", "Humidity", "Pressure", "WindSpeed")]
+
+# Divide into months
+b.sydney.march <- b.sydney[which(sydney.data$Date < as.Date("2023-04-01")),]
+b.sydney.april <- b.sydney[which(sydney.data$Date >= as.Date("2023-04-01")),]
+
+# Find averages
+b.sydney.march.average <- unlist(lapply(b.sydney.march, mean), use.names = FALSE)
+b.sydney.april.average <- unlist(lapply(b.sydney.april, mean), use.names = FALSE)
+
+b.data <- c(b.sydney.march.average, b.sydney.april.average)
+b <- matrix(b.data, 4, 2)
+
+b
+```
+
+Now, creating an array containing the average temperature, humidity, pressure, wind speed, and UV index readings for each day of each month. The easiest way I can think to do this is create a 5 * 1 * n array for all data points.
+
+```{r, eval=TRUE, include=TRUE}
+# For all data:
+
+c.data <- unlist(weather[, c("Temperature", "Humidity", "Pressure", "WindSpeed", "UVIndex")], use.names = FALSE)
+c.dmsn <- c(5, 1, 92)
+my.array <- array(c.data, c.dmsn)
+```
+
+Since the array is too long, it is better to not print all elements. 
+
+Next, creating two arrays from the one above, divided by city.
+```{r, eval=TRUE, include=TRUE}
+# Sydney
+d.data <- c.data[(weather$Location == "Sydney")]
+d.dmsn <- c(5, 1, 46)
+d.syd <- array(d.data, d.dmsn)
+
+# Canberra
+e.data <- c.data[which(weather$Location == "Canberra")]
+d.can <- array(e.data, d.dmsn)
+```
+
+Finally, use matrix multiplication to calculate the product of the transpose of the matrix in task 3 with the vector in task 1.
+```{r, eval=TRUE, include=TRUE}
+t(a) * average_temps
+```
+
+# Part C - Looping and Conditional Statements
+
+Write a loop that calculates the average pressure reading for each month and stores the results in a vector.
+
+```{r, eval=TRUE, include=TRUE}
+# Extract months from Date column
+months <- unique(format(weather$Date, "%m"))  
+
+# Empty vector to add values into:
+average_pressure <- numeric(length(months)) 
+
+for (i in 1:length(months)) {
+  month_data <- subset(weather, format(Date, "%m") == months[i])  
+  average_pressure[i] <- mean(month_data$Pressure, na.rm = TRUE)  
+}
+
+average_pressure
+```
+
+Use a conditional statement to determine how many days had a temperature above 25 degrees Celsius in Sydney.
+```{r, eval=TRUE, include=TRUE}
+total <- sum(sydney.data$Temperature > 25)
+
+total
+```
+
+Use a for loop to calculate the average humidity for the days with a temperature below 21 degrees Celsius in Canberra.
+```{r, eval=TRUE, include=TRUE}
+# Find total and then divide the total by number of occurences
+total <- 0
+
+for (i in 1:length(canberra.data$Temperature)) {
+  if (canberra.data$Temperature[i] < 21){
+    total <- total + canberra.data$Humidity[i]
+  }
+}
+
+canberra.average_cold_humid <- total / length(canberra.data$Temperature)
+canberra.average_cold_humid
+```
+
+Use a conditional statement to determine how many days had a UV index reading above 7 in both Canberra and Sydney.
+```{r, eval=TRUE, include=TRUE}
+total <- sum(weather$UVIndex > 7)
+
+total
+```
+
+# Part D - Data Frame Manipulation 
+
+Import the 5 files:
+```{r, eval=FALSE, include=TRUE}
+library(tidyverse)
+
+file1.name <- "data_for_part_D/201808.csv"
+file1 <- read_csv(file1.name, skip = 7)
+
+file2.name <- "data_for_part_D/201809.csv"
+file2 <- read_csv(file2.name, skip = 7)
+
+file3.name <- "data_for_part_D/201810.csv"
+file3 <- read_csv(file3.name, skip = 7)
+
+
+file4.name <- "data_for_part_D/201811.csv"
+file4 <- read_csv(file4.name, skip = 7)
+
+
+file5.name <- "data_for_part_D/201812.csv"
+file5 <- read_csv(file5.name, skip = 7)
+
+combined <- bind_rows(file1, file2, file3, file4, file5)
+```
+
+```{r, include=FALSE, eval=TRUE}
+library(tidyverse)
+
+file1.name <- "data_for_part_D/201808.csv"
+file1 <- read_csv(file1.name, skip = 7)
+
+file2.name <- "data_for_part_D/201809.csv"
+file2 <- read_csv(file2.name, skip = 7)
+
+file3.name <- "data_for_part_D/201810.csv"
+file3 <- read_csv(file3.name, skip = 7)
+
+
+file4.name <- "data_for_part_D/201811.csv"
+file4 <- read_csv(file4.name, skip = 7)
+
+
+file5.name <- "data_for_part_D/201812.csv"
+file5 <- read_csv(file5.name, skip = 7)
+
+combined <- bind_rows(file1, file2, file3, file4, file5)
+```
+
+```{r, include=TRUE, eval=TRUE}
+
+# Dimensions
+dim(combined)
+
+# Structure
+for (col in names(combined)) {
+  cat("Column:", col, "\n")
+  
+  str(combined[[col]])
+  
+  summary(combined[[col]])
+}
+```
+
+Write a code to remove the variables, which have no data at all (i.e. all the records in these variables are NAs)
+
+```{r, eval=TRUE, include=TRUE}
+# Find columns with all NA values
+na_cols <- sapply(combined, function(x) all(is.na(x)))
+
+combined <- combined[, !na_cols]
+combined
+```
+
+Write code to change the column names to have no spaces between the words and replace these spaces with underscore the _ character.
+
+```{r, eval=TRUE, include=TRUE}
+names(combined) <- gsub(" ", "_", names(combined))
+
+combined
+```
+
+Write code to create two new columns for the month and year from the Date column.
+
+```{r, include=TRUE, eval=TRUE}
+library(lubridate)
+
+combined$Month <- month(combined$Date)
+combined$Year <- year(combined$Date)
+
+combined
+```
+
+Write code to replace the remaining NAs with the median of the values of each column.
+```{r, eval=TRUE, include=TRUE}
+for (col in names(combined)) {
+  # Calculate median of non-NA values
+  median_val <- median(combined[[col]], na.rm = TRUE)
+  # Replace NA values with median
+  combined[[col]][is.na(combined[[col]])] <- median_val
+}
+
+combined
+```
+
+Finally, saving the file as a CSV:
+```{r, eval=TRUE, include=TRUE}
+write.table(combined , file = "combined_weather.csv", sep=",", row.names=TRUE)
+```
+
